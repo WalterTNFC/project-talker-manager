@@ -1,4 +1,4 @@
-const { readJson } = require('./helpers');
+const { readJson, generateToken } = require('./helpers');
 
 const jsonTalker = './talker.json';
 
@@ -19,7 +19,18 @@ async function getTalkerById(req, res) {
   return res.status(200).json(talkerById);
 }
 
+// Requisito 3
+async function handleLogin(req, res) {
+  const { email, password } = req.body;
+  const token = generateToken();
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email ou senha não cadastrados' });
+  }
+  return res.status(200).json({ token });
+}
+
 module.exports = {
   getTalker,
   getTalkerById,
+  handleLogin,
 };
