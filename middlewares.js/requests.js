@@ -20,7 +20,7 @@ async function getTalkerById(req, res) {
 }
 
 // Requisito 3 e 4
-async function getToken(req, res) {
+async function getToken(_req, res) {
   const token = generateToken();
   return res.status(200).json({ token });
 }
@@ -28,7 +28,7 @@ async function getToken(req, res) {
 // Requisito 5
 async function addNewTalker(req, res) {
   const { name, age, talk } = req.body;
-  const talkers = await readJson('./talker.json');
+  const talkers = await readJson(jsonTalker);
   const newTalker = { id: talkers.length + 1, name, age, talk };
   talkers.push(newTalker);
 
@@ -36,9 +36,24 @@ async function addNewTalker(req, res) {
   res.status(201).json(newTalker);
 }
 
+// Requisito 6
+async function editTalker(req, res) {
+  const { id } = req.params;
+  const { name, age, talk } = req.body;
+
+  const talkers = await readJson(jsonTalker);
+
+  const talkerIndex = talkers.findIndex((value) => value.id === +id);
+  talkers[talkerIndex] = { id: +id, name, age, talk };
+
+  await writeJson(jsonTalker, talkers);
+  res.status(200).json(talkers[talkerIndex]);
+}
+
 module.exports = {
   getTalker,
   getTalkerById,
   getToken,
   addNewTalker,
+  editTalker,
 };
