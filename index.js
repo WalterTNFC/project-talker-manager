@@ -6,6 +6,7 @@ const {
   addNewTalker,
   getToken,
   editTalker,
+  deleteTalker,
  } = require('./middlewares.js/requests');
 const {
   nameValidation,
@@ -52,6 +53,9 @@ app.put('/talker/:id',
   rateValidation,
   watchedAtValidation,
   editTalker);
+
+// Requisito 7
+app.delete('/talker/:id', tokenValidation, deleteTalker);
 
 // não remova esse endpoint, e para o avaliador funcionar!
 app.get('/', (_request, response) => {

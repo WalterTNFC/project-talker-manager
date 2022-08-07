@@ -50,10 +50,21 @@ async function editTalker(req, res) {
   res.status(200).json(talkers[talkerIndex]);
 }
 
+// Requisito 7
+async function deleteTalker(req, res) {
+  const { id } = req.params;
+  const talkers = await readJson(jsonTalker);
+  const talker = talkers.filter((value) => value.id !== +id);
+
+  await writeJson(jsonTalker, talker);
+  res.status(204).end();
+}
+
 module.exports = {
   getTalker,
   getTalkerById,
   getToken,
   addNewTalker,
   editTalker,
+  deleteTalker,
 };
