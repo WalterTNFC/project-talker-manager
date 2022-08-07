@@ -60,6 +60,23 @@ async function deleteTalker(req, res) {
   res.status(204).end();
 }
 
+// Requisito 8
+async function searchTalker(req, res) {
+  const { q } = req.query;
+  const talkers = await readJson(jsonTalker);
+
+  if (!q) {
+    return res.status(200).json(talkers);
+  }
+
+  const talker = talkers.filter((value) => value.name.includes(q));
+  if (!talker) {
+    return res.status(200).json([]);
+  }
+
+  return res.status(200).json(talker);
+}
+
 module.exports = {
   getTalker,
   getTalkerById,
@@ -67,4 +84,5 @@ module.exports = {
   addNewTalker,
   editTalker,
   deleteTalker,
+  searchTalker,
 };

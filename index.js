@@ -7,6 +7,7 @@ const {
   getToken,
   editTalker,
   deleteTalker,
+  searchTalker,
  } = require('./middlewares.js/requests');
 const {
   nameValidation,
@@ -22,6 +23,9 @@ app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
+
+// Requisito 8
+app.get('/talker/search', tokenValidation, searchTalker);
 
 // Requisito 1:
 app.get('/talker', getTalker);
