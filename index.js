@@ -3,15 +3,17 @@ const bodyParser = require('body-parser');
 const {
   getTalker,
   getTalkerById,
-  getAndValidateToken, 
-  verifyToken,
-  verifyNameAge,
-  verifyTalk,
-  verifyValue,
-  verifyRate,
-  getOtherTalker,
+  addNewTalker,
+  getToken,
  } = require('./middlewares.js/requests');
-const { tokenValidation } = require('./middlewares.js/validation');
+const {
+  nameValidation,
+  ageValidation,
+  talkerValidation, 
+  rateValidation,
+  watchedAtValidation, 
+  loginValidation, 
+  tokenValidation } = require('./middlewares.js/validation');
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,17 +28,18 @@ app.get('/talker', getTalker);
 app.get('/talker/:id', getTalkerById);
 
 // Requisito 3 e 4;
-app.post('/login', tokenValidation, getAndValidateToken);
+app.post('/login', loginValidation, getToken);
 
 // Requisito 5
 app.post(
   '/talker',
-  verifyToken,
-  verifyNameAge,
-  verifyTalk,
-  verifyValue,
-  verifyRate,
-  getOtherTalker,
+  tokenValidation,
+  nameValidation,
+  ageValidation,
+  talkerValidation,
+  rateValidation,
+  watchedAtValidation,
+  addNewTalker,
 );
 
 // não remova esse endpoint, e para o avaliador funcionar!
